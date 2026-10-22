@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Для Сони ♡</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;padding:30px 16px;
+ font-family:Arial,sans-serif;color:#684454;text-align:center;
+ background:linear-gradient(145deg,#fff5f7,#ffe5ee,#fff5e9);
+}
+main{max-width:650px;margin:auto}
+h1{font-size:clamp(38px,9vw,60px);margin:20px 0 12px}
+h1 span{color:#ed80a4}
+.intro{line-height:1.7;color:#987181;font-size:16px}
+.card{
+ margin:25px auto;padding:22px 16px;
+ background:#ffffffc9;border:1px solid white;border-radius:28px;
+ box-shadow:0 15px 45px #d18ca522;
+}
+.hint{color:#bd7e98;font-size:14px;margin:0 0 20px}
+.buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+button{font:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.compliment{
+ min-height:58px;padding:12px 8px;border-radius:17px;
+ border:1px solid #f5cada;background:#fff7fa;color:#985a75;
+ font-size:14px;font-weight:bold;
+ box-shadow:0 4px 0 #f2d0dd;
+ transition:transform .2s,opacity .2s;
+}
+.compliment:active{transform:scale(.96)}
+.compliment.gone{animation:fall .55s ease-in forwards;pointer-events:none}
+@keyframes fall{
+ 0%{opacity:1;transform:translateY(0) rotate(0)}
+ 30%{opacity:1;transform:translateY(-10px) rotate(-5deg)}
+ 100%{opacity:0;transform:translateY(120px) rotate(15deg)}
+}
+.reveal{
+ margin-top:24px;padding:24px 12px;border-radius:22px;
+ background:linear-gradient(135deg,#fff0f5,#fff9f0);
+ border:1px dashed #efb7cb;min-height:130px;
+ display:flex;flex-direction:column;justify-content:center;
+}
+.label{font-size:11px;letter-spacing:2px;color:#c18ca0;font-weight:bold}
+#message{font-size:clamp(21px,5vw,29px);font-weight:bold;line-height:1.4;margin:12px 0 0}
+.pop{animation:pop .35s ease}
+@keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+#counter{font-size:13px;color:#b18b9a;margin:18px 0 0}
+#final{display:none;margin-top:24px;line-height:1.8}
+#final.show{display:block;animation:pop .5s ease}
+#final h2{font-size:30px}
+.restart{border:0;background:#f9dce7;color:#985a75;border-radius:30px;padding:13px 20px;font-weight:bold;margin-top:12px}
+footer{margin:25px 0;color:#b18b9a;font-size:13px;line-height:1.8}
+@media(min-width:520px){.buttons{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<main>
+ <div style="color:#bd7e98;letter-spacing:3px;font-size:11px">МАЛЕНЬКИЙ СЮРПРИЗ</div>
+ <h1>Соня, ты <span>♡</span></h1>
+ <p class="intro">Я приготовил для тебя кое-что приятное.<br>
+ Нажимай на кнопочки — они будут исчезать,<br>
+ а для тебя будут открываться добрые слова ✨</p>
+
+ <section class="card">
+  <p class="hint">♡ Нажимай на любую кнопку ♡</p>
+  <div class="buttons" id="buttons">
+   <button class="compliment">Ты красивая 🌷</button>
+   <button class="compliment">Ты очень милая</button>
+   <button class="compliment">Ты самая лучшая</button>
+   <button class="compliment">У тебя добрая душа</button>
+   <button class="compliment">Твоя улыбка — чудо</button>
+   <button class="compliment">Ты особенная ♡</button>
+   <button class="compliment">С тобой уютно</button>
+   <button class="compliment">Ты заслуживаешь счастья</button>
+   <button class="compliment">Ты невероятная</button>
+   <button class="compliment">Ты очень важна</button>
+   <button class="compliment">Продолжай сиять ✨</button>
+   <button class="compliment">Ты маленькое чудо</button>
+  </div>
+
+  <div class="reveal" aria-live="polite">
+   <div class="label" id="label">ЭТО НУЖНО ПОМНИТЬ</div>
+   <p id="message">Соня, ты правда замечательная ♡</p>
+  </div>
+  <p id="counter">Осталось кнопок: 12</p>
+
+  <div id="final">
+   <div style="font-size:42px">💗</div>
+   <h2>И последнее, Соня…</h2>
+   <p>Не сравнивай себя с другими. Ты по-своему прекрасна, и в тебе есть что-то особенное, чего нет больше ни у кого. Будь к себе добрее и почаще улыбайся ♡</p>
+   <button class="restart" id="restart">↻ Пройти заново</button>
+  </div>
+ </section>
+ <footer>Сделано с теплом специально для Сони ♥<br>Надеюсь, ты сейчас улыбаешься</footer>
+</main>
+
+<script>
+(function(){
+ const buttons = Array.from(document.querySelectorAll('.compliment'));
+ const message = document.getElementById('message');
+ const label = document.getElementById('label');
+ const counter = document.getElementById('counter');
+ const final = document.getElementById('final');
+ const restart = document.getElementById('restart');
+
+ const compliments = [
+  'Ты красивее, чем сама думаешь ♡',
+  'В тебе есть что-то светлое',
+  'Ты заслуживаешь заботы и нежности',
+  'Миру нужна твоя улыбка',
+  'Ты можешь гордиться собой',
+  'Тебе не нужно быть идеальной',
+  'Ты достойна всего самого хорошего',
+  'Пожалуйста, никогда не обесценивай себя',
+  'Ты прекрасна просто потому, что ты — это ты',
+  'Пусть у тебя будет много счастливых дней',
+  'Ты важнее, чем иногда думаешь',
+  'Оставайся собой, Соня ♡'
+ ];
+
+ let remaining = buttons.length;
+ let nextCompliment = 0;
+
+ function showMessage(text){
+  message.classList.remove('pop');
+  message.textContent = text;
+  void message.offsetWidth;
+  message.classList.add('pop');
+ }
+
+ buttons.forEach(function(button){
+  button.addEventListener('click',function(){
+   if(button.classList.contains('gone')) return;
+
+   button.classList.add('gone');
+   button.disabled = true;
+
+   const text = compliments[nextCompliment % compliments.length];
+   nextCompliment++;
+   showMessage(text);
+   label.textContent = 'А ВОТ ЕЩЁ КОЕ-ЧТО';
+
+   remaining--;
+   counter.textContent = remaining
+    ? 'Осталось кнопок: ' + remaining
+    : 'Все кнопки исчезли ♡';
+
+   if(remaining === 0){
+    label.textContent = 'ТЫ ДОБРАЛАСЬ ДО КОНЦА';
+    showMessage('Ты прочитала все комплименты, Соня ♡');
+    final.classList.add('show');
+   }
+  });
+ });
+
+ restart.addEventListener('click',function(){
+  remaining = buttons.length;
+  nextCompliment = 0;
+
+  buttons.forEach(function(button){
+   button.classList.remove('gone');
+   button.disabled = false;
+  });
+
+  final.classList.remove('show');
+  counter.textContent = 'Осталось кнопок: ' + remaining;
+  label.textContent = 'ЭТО НУЖНО ПОМНИТЬ';
+  showMessage('Соня, ты правда замечательная ♡');
+ });
+})();
+</script>
+</body>
+</html>
